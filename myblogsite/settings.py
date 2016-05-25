@@ -21,12 +21,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'gu*kk&3sx4ci^sc85vy=rt^a^5ryu(mf(px6p((-fx)^i!3&m3'
+SECRET_KEY = 'hoo(^mcm7pw=q9@!6a3d1&py91ei$szo#a6gj@g^ph7+0=soas'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -97,17 +97,17 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_ROOT = '/static/'
+STATIC_ROOT = '/static'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
 
-#REST_FRAMEWORK
-
+#restframework
 REST_FRAMEWORK = {
-	'DEFAULT_PERMISSION_CLASS':[
-		'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-	]
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
 }
-
