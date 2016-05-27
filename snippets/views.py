@@ -5,7 +5,8 @@ from django.http import HttpResponse
 from rest_framework.parsers import JSONParser
 from snippets.models import Snippet
 from snippets.serializers import SnippetSerializer
-
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 # Create your views here.
 
 class JSONResponse(HttpResponse):
@@ -16,27 +17,27 @@ class JSONResponse(HttpResponse):
 		super(JSONResponse,self).__init__(content, **kw)
 
 
-
-@csrf_exempt
-def snippet_list(request):
+#use api view decorator
+@api_view(['GET','POST'])
+def snippet_list(request, format=None):
     """
     List all code snippets, or create a new snippet.
     """
     if request.method == 'GET':
         snippets = Snippet.objects.all()
         serializer = SnippetSerializer(snippets, many=True)
-        return JSONResponse(serializer.data)
+        return Response(serializer.data)
 
     elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = SnippetSerializer(data=data)
+       # data = JSONParser().parse(request)
+        serializer = SnippetSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return JSONResponse(serializer.data, status=201)
-        return JSONResponse(serializer.errors, status=400)
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
 
-@csrf_exempt
-def snippet_detail(request, pk):
+@api_view(['GET','PUT','DELETE'])
+def snippet_detail(request, pk, format=None):
     """
     Retrieve, update or delete a code snippet.
     """
@@ -47,15 +48,16 @@ def snippet_detail(request, pk):
 
     if request.method == 'GET':
         serializer = SnippetSerializer(snippet)
-        return JSONResponse(serializer.data)
+        return Response(serializer.data)
 
     elif request.method == 'PUT':
-        data = JSONParser().parse(request)
-        serializer = SnippetSerializer(snippet, data=data)
+	#use resquest.data repalce data
+        #data = JSONParser().parse(request)
+        serializer = SnippetSerializer(snippet, data=resquest.data)
         if serializer.is_valid():
             serializer.save()
-            return JSONResponse(serializer.data)
-        return JSONResponse(serializer.errors, status=400)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
 
     elif request.method == 'DELETE':
         snippet.delete()
