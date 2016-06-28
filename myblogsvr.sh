@@ -9,8 +9,8 @@ start)
 	;;
 stop)
 	echo "server stop"
-	killall -9 nginx
-	killall -9 uwsgi
+	sudo killall -9 nginx
+	sudo killall -9 uwsgi
 	;;
 restart)
 	echo "server restart"
